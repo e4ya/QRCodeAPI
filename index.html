@@ -1,0 +1,40 @@
+<html style="height: 100%;">
+
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=0.1">
+    <title>e4y的二维码生成API</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+    <link rel="icon" href="favicon.svg">
+</head>
+
+
+<span id="qrcode" style="display:none">
+    </span>
+<script type="text/javascript">
+    function dataURLtoBlob(dataurl) {
+        var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {
+            type: mime
+        });
+    }
+    var uri_encode = decodeURIComponent(location.search); //解码
+    uri_encode = uri_encode.replace("?", ""); //替换字符串
+    if (uri_encode == "") {
+        document.write("请在网站后输入/?+你想生成二维码内容(使用urlencode编码)");
+        document.write("<br>");
+        document.write("示范:https://e4y.icu =＞ /?https%3A%2F%2Fe4y.icu");
+    } else {
+        console.log(new QRCode(document.getElementById("qrcode"), uri_encode)); // 设置要生成二维码的链接
+        location.href = URL.createObjectURL(dataURLtoBlob(document.getElementById("qrcode").children[0].toDataURL("image/png")))
+    }
+</script>
+
+</html>
